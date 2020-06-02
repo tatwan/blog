@@ -11,3 +11,8 @@ _notebooks/.ipynb_checkpoints
 .netlify
 .tweet-cache
 __pycache__
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Macbook
+.DS_Store
