@@ -1,1 +1,1 @@
-Sitemap: https://tatwan.github.io/blog/sitemap.xml
+Sitemap: http://www.tarekatwan.com/blog/sitemap.xml
