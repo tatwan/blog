@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>MicroStrategy API with R | TechTalks</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="MicroStrategy API with R" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examples on how to use R with MicroStrategy in Jupyter" />
+<meta property="og:description" content="Examples on how to use R with MicroStrategy in Jupyter" />
+<link rel="canonical" href="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html" />
+<meta property="og:url" content="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html" />
+<meta property="og:site_name" content="TechTalks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Examples on how to use R with MicroStrategy in Jupyter","@type":"BlogPosting","headline":"MicroStrategy API with R","dateModified":"2018-08-10T00:00:00-05:00","datePublished":"2018-08-10T00:00:00-05:00","url":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://tarekatwan.com/blog/feed.xml" title="TechTalks" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>MicroStrategy API with R | TechTalks</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="MicroStrategy API with R" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examples on how to use R with MicroStrategy in Jupyter" />
+<meta property="og:description" content="Examples on how to use R with MicroStrategy in Jupyter" />
+<link rel="canonical" href="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html" />
+<meta property="og:url" content="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html" />
+<meta property="og:site_name" content="TechTalks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Examples on how to use R with MicroStrategy in Jupyter","@type":"BlogPosting","headline":"MicroStrategy API with R","dateModified":"2018-08-10T00:00:00-05:00","datePublished":"2018-08-10T00:00:00-05:00","url":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="http://tarekatwan.com/blog/feed.xml" title="TechTalks" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">TechTalks</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">MicroStrategy API with R</h1><p class="page-description">Examples on how to use R with MicroStrategy in Jupyter</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2018-08-10T00:00:00-05:00" itemprop="datePublished">
+        Aug 10, 2018
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#microstrategy">microstrategy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#API">API</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#microstrategy-rest-api-with-r">MicroStrategy REST API with R</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#microstrategy-reference-material">MicroStrategy Reference Material:</a></li>
+<li class="toc-entry toc-h3"><a href="#additional-resourcesinspirations">Additional Resources/Inspirations:</a></li>
+<li class="toc-entry toc-h3"><a href="#r-library-references">R Library References:</a></li>
+<li class="toc-entry toc-h3"><a href="#list-of-code-examples-">List of Code Examples :</a></li>
+<li class="toc-entry toc-h3"><a href="#import-httr-and-jsonlite-libraries">Import httr and jsonlite libraries</a></li>
+<li class="toc-entry toc-h2"><a href="#set-parameters">Set Parameters</a></li>
+<li class="toc-entry toc-h2"><a href="#authentication-returns-authtoken--sessionid">Authentication: Returns authToken &amp; SessionId</a></li>
+<li class="toc-entry toc-h2"><a href="#test-session">Test Session</a></li>
+<li class="toc-entry toc-h2"><a href="#get-userinfo">Get UserInfo</a></li>
+<li class="toc-entry toc-h2"><a href="#get-library-for-user">Get Library for user</a></li>
+<li class="toc-entry toc-h2"><a href="#list-of-projects">List of Projects</a></li>
+<li class="toc-entry toc-h2"><a href="#search-objects">Search Objects</a></li>
+<li class="toc-entry toc-h2"><a href="#list-cube-objects">List Cube Objects</a></li>
+<li class="toc-entry toc-h2"><a href="#log-out-and-end-session">Log Out and end session</a></li>
+</ul>
+</li>
+</ul><h1 id="microstrategy-rest-api-with-r">
+<a class="anchor" href="#microstrategy-rest-api-with-r" aria-hidden="true"><span class="octicon octicon-link"></span></a>MicroStrategy REST API with R</h1>
+
+<p><a id="top"></a></p>
+<h3 id="microstrategy-reference-material">
+<a class="anchor" href="#microstrategy-reference-material" aria-hidden="true"><span class="octicon octicon-link"></span></a>MicroStrategy Reference Material:</h3>
+<ul>
+  <li>MicroStrategy RESTful API Interactive (your Local Demo): http://yourmstrEnv.com/MicroStrategyLibrary/api-docs/</li>
+  <li><a href="https://demo.microstrategy.com/MicroStrategyLibrary/api-docs/index.html#/">MicroStrategy RESTful API Interactive (external demo)</a></li>
+  <li><a href="https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/projects/RESTSDK/Content/topics/REST_API/REST_API.htm">MicroStrategy REST API Online Documentation</a></li>
+</ul>
+
+<h3 id="additional-resourcesinspirations">
+<a class="anchor" href="#additional-resourcesinspirations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Resources/Inspirations:</h3>
+<ul>
+  <li><a href="https://community.microstrategy.com/s/article/REST-API-10-9-code-example-in-Python">MicroStrategy Sample API Python Example by Robert Prochowicz</a></li>
+  <li><a href="https://www.microstrategy.com/us/resources/library/webcasts/machine-learning-with-python-train-models-on-trust">Machine Learning with Python On-Demand Video with Scott Rigney</a></li>
+</ul>
+
+<h3 id="r-library-references">
+<a class="anchor" href="#r-library-references" aria-hidden="true"><span class="octicon octicon-link"></span></a>R Library References:</h3>
+<ul>
+  <li><a href="http://httr.r-lib.org/">httr</a></li>
+  <li><a href="https://www.rdocumentation.org/packages/jsonlite/versions/1.5">jsonlite</a></li>
+</ul>
+
+<h3 id="list-of-code-examples-">
+<a class="anchor" href="#list-of-code-examples-" aria-hidden="true"><span class="octicon octicon-link"></span></a>List of Code Examples :</h3>
+<ol>
+  <li><a href="#auth">login()</a></li>
+  <li><a href="#test">sessionValidate()</a></li>
+  <li><a href="#user">userInfo()</a></li>
+  <li><a href="#projects">listProjcets()</a></li>
+  <li><a href="#library">getLibrary()</a></li>
+  <li><a href="#search">searchObjects()</a></li>
+  <li><a href="#cubeobjects">cubeObjects()</a></li>
+  <li><a href="#exit">Logout User()</a></li>
+</ol>
+
+<p>—- WIP to be added —–</p>
+<ol>
+  <li><a href="#cubeinstance">Cube Instance</a></li>
+  <li><a href="#cubedata">Get Cube Data</a></li>
+  <li><a href="#createcube">Create Cube</a></li>
+  <li><a href="#writecube">Write/publish a Cube</a></li>
+</ol>
+
+<h3 id="import-httr-and-jsonlite-libraries">
+<a class="anchor" href="#import-httr-and-jsonlite-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Import <code class="highlighter-rouge">httr</code> and <code class="highlighter-rouge">jsonlite</code> libraries</h3>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">httr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">jsonlite</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="set-parameters">
+<a class="anchor" href="#set-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set Parameters</h2>
+
+<p>Create the necessary varibales such as <code class="highlighter-rouge">username</code>, <code class="highlighter-rouge">password</code>, <code class="highlighter-rouge">projectid</code> and <code class="highlighter-rouge">baseURL</code></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">username</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">'Administrator'</span><span class="w">
+</span><span class="n">password</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">''</span><span class="w">
+</span><span class="n">baseURL</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"http://youMstrEnv/MicroStrategyLibrary/api/"</span><span class="w">
+</span><span class="n">projectId</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">'B19DEDCC11D4E0EFC000EB9495D0F44F'</span><span class="w">
+</span></code></pre></div></div>
+
+<p><a id="auth"></a></p>
+<h2 id="authentication-returns-authtoken--sessionid">
+<a class="anchor" href="#authentication-returns-authtoken--sessionid" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authentication: Returns authToken &amp; SessionId</h2>
+<p><a href="#top">Top</a></p>
+
+<p>Implementation Notes (source: MicroStrategy Documentation):<br>
+Authenticate a user and create an HTTP session on the web server where the user’s MicroStrategy sessions are stored. This request returns an authorization token (X-MSTR-AuthToken) which will be submitted with subsequent requests. The body of the request contains the information needed to create the session. The loginMode parameter in the body specifies the authentication mode to use. You can authenticate with one of the following authentication modes: Standard (1), Anonymous (8), or LDAP (16). Authentication modes can be enabled through the System Administration REST APIs, if they are supported by the deployment. If you are not able to authenticate using any of the authentication modes, please contact your administrator to determine current support or currently enabled authentication modes.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">login</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w">
+             </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">password</span><span class="p">,</span><span class="w">
+             </span><span class="n">loginMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'1'</span><span class="p">)</span><span class="w">
+    
+    </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">POST</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">base_url</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'auth/login'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w">
+    
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="s2">"Success"</span><span class="p">)</span><span class="w">
+      </span><span class="n">authToken</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">httpheader</span><span class="o">$</span><span class="s1">'x-mstr-authtoken'</span><span class="w">
+      </span><span class="n">sessionCoookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">httpcookies</span><span class="o">$</span><span class="n">value</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="s2">"\nauthToken :"</span><span class="p">,</span><span class="w"> </span><span class="n">authToken</span><span class="p">)</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="s2">"\nSessionCookie:"</span><span class="p">,</span><span class="w"> </span><span class="n">sessionCoookies</span><span class="p">)</span><span class="w">
+      </span><span class="n">authList</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="s2">"authToken"</span><span class="o">=</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="s2">"sessionId"</span><span class="o">=</span><span class="n">sessionCoookies</span><span class="p">)</span><span class="w">  
+      </span><span class="nf">return</span><span class="p">(</span><span class="n">authList</span><span class="p">)</span><span class="w">  
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#return a list</span><span class="w">
+</span><span class="n">auth</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">login</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> 
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Success
+authToken : k4vchhmjv7me39v9816gv3den2
+SessionCookie: 18E1E53ADDBA549D077EACE563C208AB
+</code></pre></div></div>
+
+<p><a id="test"></a></p>
+<h2 id="test-session">
+<a class="anchor" href="#test-session" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test Session</h2>
+<p><a href="#top">Top</a></p>
+
+<p>Implementation Notes (source: MicroStrategy Documentation):<br>
+Get information about a configuration session. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token in the request header. Each time you call this endpoint, both the HTTP and Intelligence Server session timeouts are reset. This request returns information about the authenticated user, locale, timeout duration, maximum number of concurrent searches, and limit on number of instances kept in memory.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionValidate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">){</span><span class="w">
+    
+    </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">base_url</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'sessions'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> 
+             </span><span class="n">add_headers</span><span class="p">(</span><span class="s1">'X-MSTR-AuthToken'</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="n">Accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'application/json'</span><span class="p">,</span><span class="w"> </span><span class="n">cookies</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">sessionId</span><span class="p">))</span><span class="w">
+    
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">print</span><span class="p">(</span><span class="n">toJSON</span><span class="p">(</span><span class="n">content</span><span class="p">(</span><span class="n">r</span><span class="p">)))</span><span class="w">
+    </span><span class="p">}</span><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w">   
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionValidate</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"locale":[1033],"maxSearch":[3],"workingSet":[10],"timeout":[600],"id":["54F3D26011D2896560009A8E67019608"],"fullName":["Administrator"],"initials":["A"]} 
+</code></pre></div></div>
+
+<p><a id="user"></a></p>
+<h2 id="get-userinfo">
+<a class="anchor" href="#get-userinfo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get UserInfo</h2>
+<p><a href="#top">Top</a></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">userInfo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">){</span><span class="w">
+    
+     </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">baseURL</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'sessions/userInfo'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> 
+             </span><span class="n">add_headers</span><span class="p">(</span><span class="s1">'X-MSTR-AuthToken'</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="n">Accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'application/json'</span><span class="p">,</span><span class="w"> </span><span class="n">cookies</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">sessionId</span><span class="p">))</span><span class="w">
+    
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">content</span><span class="p">(</span><span class="n">r</span><span class="p">))</span><span class="w">
+       </span><span class="nf">return</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w">   
+    </span><span class="p">}</span><span class="w">
+    
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Returns a data.frame object</span><span class="w">
+
+</span><span class="n">user</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">userInfo</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">)</span><span class="w">
+</span><span class="n">user</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+<thead><tr>
+<th scope="col">metadataUser</th>
+<th scope="col">id</th>
+<th scope="col">fullName</th>
+<th scope="col">initials</th>
+</tr></thead>
+<tbody>
+	<tr>
+<td>TRUE                            </td>
+<td>54F3D26011D2896560009A8E67019608</td>
+<td>Administrator                   </td>
+<td>A                               </td>
+</tr>
+</tbody>
+</table>
+
+<p><a id="library"></a></p>
+<h2 id="get-library-for-user">
+<a class="anchor" href="#get-library-for-user" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get Library for user</h2>
+<p><a href="#top">Top</a></p>
+
+<p>Implementation Notes (source: MicroStrategy Documentation)<br>
+Get the library for the authenticated user. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token in the request header.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">getLibrary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">,</span><span class="w"> </span><span class="n">flag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    
+     </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">baseURL</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'library?outputFlag='</span><span class="p">,</span><span class="w"> </span><span class="n">flag</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> 
+             </span><span class="n">add_headers</span><span class="p">(</span><span class="s1">'X-MSTR-AuthToken'</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="n">Accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'application/json'</span><span class="p">,</span><span class="w"> </span><span class="n">cookies</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">sessionId</span><span class="p">))</span><span class="w">
+    
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fromJSON</span><span class="p">(</span><span class="n">toJSON</span><span class="p">(</span><span class="n">content</span><span class="p">(</span><span class="n">r</span><span class="p">)))[</span><span class="nf">c</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span><span class="w"> </span><span class="s1">'name'</span><span class="p">,</span><span class="w"> </span><span class="s1">'projectId'</span><span class="p">,</span><span class="w"> </span><span class="s1">'active'</span><span class="p">,</span><span class="s1">'lastViewedTime'</span><span class="p">)]</span><span class="w">
+       </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'DEFAULT'</span><span class="p">){</span><span class="w">
+           </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
+           </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">fromJSON</span><span class="p">(</span><span class="n">toJSON</span><span class="p">(</span><span class="n">content</span><span class="p">(</span><span class="n">r</span><span class="p">)))[</span><span class="nf">c</span><span class="p">(</span><span class="s1">'target'</span><span class="p">)]){</span><span class="w">
+             </span><span class="n">b</span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">[,</span><span class="s1">'id'</span><span class="p">])</span><span class="w">
+             </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">matrix</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">byrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">),</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+             </span><span class="n">colnames</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"targetId"</span><span class="w">
+           </span><span class="p">}</span><span class="w">
+         </span><span class="n">a</span><span class="o">$</span><span class="n">targetId</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">b</span><span class="o">$</span><span class="n">targetId</span><span class="w">
+       </span><span class="p">}</span><span class="w"> 
+       </span><span class="nf">return</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w">   
+    </span><span class="p">}</span><span class="w">
+    
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Return a data.frame object</span><span class="w">
+</span><span class="n">libraryInfo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">getLibrary</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">,</span><span class="w"> </span><span class="s1">'DEFAULT'</span><span class="p">)</span><span class="w">
+</span><span class="n">libraryInfo</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+<thead><tr>
+<th scope="col">id</th>
+<th scope="col">name</th>
+<th scope="col">projectId</th>
+<th scope="col">active</th>
+<th scope="col">lastViewedTime</th>
+<th scope="col">targetId</th>
+</tr></thead>
+<tbody>
+	<tr>
+<td>1B979449411E30E4E4502F918158EA40</td>
+<td>Category Analysis               </td>
+<td>B19DEDCC11D4E0EFC000EB9495D0F44F</td>
+<td>TRUE                            </td>
+<td>2018-08-11T07:49:40.000+0000    </td>
+<td>512EDAA1487128DBBCA43E8525E10A11</td>
+</tr>
+	<tr>
+<td>21A521BA4DB47ADAEBE19E9E9F7EC7D9    </td>
+<td>Executive Business User Data Dossier</td>
+<td>B19DEDCC11D4E0EFC000EB9495D0F44F    </td>
+<td>TRUE                                </td>
+<td>2018-08-10T19:36:00.000+0000        </td>
+<td>FC6E8B6F4950540FC3595093E0FBA306    </td>
+</tr>
+	<tr>
+<td>80AFEAD447DE2430F7E41FBB1B1EFCBA</td>
+<td>Category Breakdown Dossier      </td>
+<td>B19DEDCC11D4E0EFC000EB9495D0F44F</td>
+<td>TRUE                            </td>
+<td>2018-08-10T21:36:32.000+0000    </td>
+<td>95005DFF4C4829CF5EE6E98877726566</td>
+</tr>
+</tbody>
+</table>
+
+<p><a id="projects"></a></p>
+<h2 id="list-of-projects">
+<a class="anchor" href="#list-of-projects" aria-hidden="true"><span class="octicon octicon-link"></span></a>List of Projects</h2>
+<p><a href="#top">Top</a></p>
+
+<p>Implementation Notes (Source: MicroStrategy Documentation)<br>
+Get a list of projects which the authenticated user has access to. This returns the name, ID, description, alias, and status of each project; the status corresponds to values from EnumDSSXMLProjectStatus. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token in the request header.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">listProjects</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    
+     </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">baseURL</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'projects'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> 
+             </span><span class="n">add_headers</span><span class="p">(</span><span class="s1">'X-MSTR-AuthToken'</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="n">Accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'application/json'</span><span class="p">,</span><span class="w"> </span><span class="n">cookies</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">sessionId</span><span class="p">))</span><span class="w">
+    
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fromJSON</span><span class="p">(</span><span class="n">toJSON</span><span class="p">(</span><span class="n">content</span><span class="p">(</span><span class="n">r</span><span class="p">)))[</span><span class="nf">c</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span><span class="s1">'name'</span><span class="p">,</span><span class="s1">'description'</span><span class="p">,</span><span class="w"> </span><span class="s1">'status'</span><span class="p">)]</span><span class="w">
+       </span><span class="nf">return</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w">   
+    </span><span class="p">}</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Return a data.frame object</span><span class="w">
+</span><span class="n">projectList</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">listProjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">)</span><span class="w">
+</span><span class="n">projectList</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+<thead><tr>
+<th scope="col">id</th>
+<th scope="col">name</th>
+<th scope="col">description</th>
+<th scope="col">status</th>
+</tr></thead>
+<tbody>
+	<tr>
+<td>B19DEDCC11D4E0EFC000EB9495D0F44F                                                                                                                                                                                                                 </td>
+<td>MicroStrategy Tutorial                                                                                                                                                                                                                           </td>
+<td>MicroStrategy Tutorial project and application set designed to illustrate the platform's rich functionality. The theme is an Electronics, Books, Movies and Music store. Employees, Inventory, Finance, Product Sales and Suppliers are analyzed.</td>
+<td>0                                                                                                                                                                                                                                                </td>
+</tr>
+	<tr>
+<td>AF09B3E3458F78B4FBE4DEB68528BF7B                                                                                                                                                                                    </td>
+<td>Human Resources Analysis Module                                                                                                                                                                                     </td>
+<td>The Human Resources Analysis Module analyses workforce headcount, trends and profiles, employee attrition and recruitment, compensation and benefit costs and employee qualifications, performance and satisfaction.</td>
+<td>0                                                                                                                                                                                                                   </td>
+</tr>
+	<tr>
+<td>4DD3B04B40D227471401609D630C76ED</td>
+<td>Enterprise Manager              </td>
+<td>                                </td>
+<td>0                               </td>
+</tr>
+</tbody>
+</table>
+
+<p><a id="search"></a></p>
+<h2 id="search-objects">
+<a class="anchor" href="#search-objects" aria-hidden="true"><span class="octicon octicon-link"></span></a>Search Objects</h2>
+<p><a href="#top">Top</a></p>
+
+<p>Implementation Notes (Source: MicroStrategy Documentation)<br>
+Use the stored results of the Quick Search engine to return search results and display them as a list. The Quick Search engine periodically indexes the metadata and stores the results in memory, making Quick Search very fast but with results that may not be the most recent. You obtain the authorization token needed to execute the request using POST /auth/login. You identify the project by specifying the project ID in the request header; you obtain the project ID using GET /projects. You specify the search criteria using query parameters in the request; criteria can include the root folder ID, the search domain, the type of object, whether to return ancestors of the object, and a search pattern such as Begins With or Exactly. You use the offset and limit query parameters to control paging behavior. The offset parameter specifies where to start returning search results, and the limit parameter specifies how many results to return.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">searchObjects</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">,</span><span class="w"> </span><span class="n">projectId</span><span class="p">,</span><span class="w"> </span><span class="n">stype</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    
+    </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">baseURL</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'searches/results?type='</span><span class="p">,</span><span class="w"> </span><span class="n">stype</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> 
+             </span><span class="n">add_headers</span><span class="p">(</span><span class="s1">'X-MSTR-AuthToken'</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="s1">'X-MSTR-ProjectID'</span><span class="o">=</span><span class="n">projectId</span><span class="p">,</span><span class="w">
+                         </span><span class="n">Accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'application/json'</span><span class="p">,</span><span class="w"> </span><span class="n">cookies</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">sessionId</span><span class="p">))</span><span class="w">
+
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">tmp</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">content</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">result</span><span class="w">
+       </span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">tmp</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span><span class="w">
+        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">tmp</span><span class="p">)){</span><span class="w">
+            </span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rbind</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">tmp</span><span class="p">[[</span><span class="n">i</span><span class="p">]]))</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+       </span><span class="nf">return</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w">   
+    </span><span class="p">}</span><span class="w">
+    
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Return a data.frame object</span><span class="w">
+</span><span class="n">mySearch</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">searchObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">,</span><span class="w"> </span><span class="n">projectId</span><span class="p">,</span><span class="w"> </span><span class="s1">'39'</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">mySearch</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+<thead><tr>
+<th scope="col">name</th>
+<th scope="col">id</th>
+<th scope="col">type</th>
+<th scope="col">subtype</th>
+<th scope="col">extType</th>
+<th scope="col">dateCreated</th>
+<th scope="col">dateModified</th>
+<th scope="col">version</th>
+<th scope="col">acg</th>
+<th scope="col">owner.name</th>
+<th scope="col">owner.id</th>
+</tr></thead>
+<tbody>
+	<tr>
+<td>Search for all objects of type Grid       </td>
+<td>87F09D2EBB9B462CAC4581ABCAD97BBD          </td>
+<td>39                                        </td>
+<td>9984                                      </td>
+<td>0                                         </td>
+<td>2005-06-27T21:33:41.000+0000              </td>
+<td>2010-09-13T10:40:53.000+0000              </td>
+<td>08B3974B493CE1E84106EB825B71CB6A          </td>
+<td>255                                       </td>
+<td>Administrator                             </td>
+<td>54F3D26011D2896560009A8E67019608          </td>
+</tr>
+	<tr>
+<td>Search for all objects of type Text Prompt</td>
+<td>8A7CAF697BB64191BA3E15FA10DEDA61          </td>
+<td>39                                        </td>
+<td>9984                                      </td>
+<td>0                                         </td>
+<td>2005-06-27T21:33:42.000+0000              </td>
+<td>2009-02-23T13:33:46.000+0000              </td>
+<td>AC6316004E27925A85DDDF928D276A43          </td>
+<td>255                                       </td>
+<td>Administrator                             </td>
+<td>54F3D26011D2896560009A8E67019608          </td>
+</tr>
+	<tr>
+<td>MicroStrategy Web User Objects            </td>
+<td>9F4A56074EDD734CBEFFC79A68BC36AF          </td>
+<td>39                                        </td>
+<td>9984                                      </td>
+<td>0                                         </td>
+<td>2010-04-12T11:13:59.000+0000              </td>
+<td>2010-04-12T11:14:31.000+0000              </td>
+<td>5726EAF84C05E5B3854423A0E8BA1106          </td>
+<td>255                                       </td>
+<td>Administrator                             </td>
+<td>54F3D26011D2896560009A8E67019608          </td>
+</tr>
+	<tr>
+<td>Search for all objects of type Hierarchy  </td>
+<td>A1468ECD38754F90B56B611635AC550E          </td>
+<td>39                                        </td>
+<td>9984                                      </td>
+<td>0                                         </td>
+<td>2005-06-27T21:33:39.000+0000              </td>
+<td>2009-02-23T13:33:43.000+0000              </td>
+<td>5E82734349853883096289A9CE83F9A2          </td>
+<td>255                                       </td>
+<td>Administrator                             </td>
+<td>54F3D26011D2896560009A8E67019608          </td>
+</tr>
+	<tr>
+<td>Search for all objects of type Column     </td>
+<td>57048C8A11D437E2C000039187BD3A4F          </td>
+<td>39                                        </td>
+<td>9984                                      </td>
+<td>0                                         </td>
+<td>2001-01-02T20:46:32.000+0000              </td>
+<td>2007-03-04T16:42:01.000+0000              </td>
+<td>9F27DD6B4FBED44E68CB869371E61BCA          </td>
+<td>255                                       </td>
+<td>Administrator                             </td>
+<td>54F3D26011D2896560009A8E67019608          </td>
+</tr>
+	<tr>
+<td>Search for all objects of type Document   </td>
+<td>57048CAE11D437E2C000039187BD3A4F          </td>
+<td>39                                        </td>
+<td>9984                                      </td>
+<td>0                                         </td>
+<td>2001-01-02T20:46:30.000+0000              </td>
+<td>2008-01-21T16:10:31.000+0000              </td>
+<td>398B629141FCDB835E2CEA9D72D990B1          </td>
+<td>255                                       </td>
+<td>Administrator                             </td>
+<td>54F3D26011D2896560009A8E67019608          </td>
+</tr>
+</tbody>
+</table>
+
+<p><a id="cubeobjects"></a></p>
+<h2 id="list-cube-objects">
+<a class="anchor" href="#list-cube-objects" aria-hidden="true"><span class="octicon octicon-link"></span></a>List Cube Objects</h2>
+<p><a href="#top">Top</a></p>
+
+<p>(mplementation Notes (Source: MicroStrategy Documentation)<br>
+Get the definition of a specific cube, including attributes and metrics. The cube can be either an Intelligent Cube or a Direct Data Access (DDA)/MDX cube. The in-memory cube definition provides information about all available objects without actually running any data query/report. The results can be used by other requests to help filter large datasets and retrieve values dynamically, helping with performance and scalability. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token and the project ID in the request header. You specify the cube ID in the path of the request; this can be either an Intelligent cube ID or a DDA/MDX cube ID.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cubeObjects</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">,</span><span class="w"> </span><span class="n">projectId</span><span class="p">,</span><span class="w"> </span><span class="n">cubeId</span><span class="p">){</span><span class="w">
+    
+    </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">baseURL</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'cubes/'</span><span class="p">,</span><span class="w"> </span><span class="n">cubeId</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> 
+             </span><span class="n">add_headers</span><span class="p">(</span><span class="s1">'X-MSTR-AuthToken'</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="s1">'X-MSTR-ProjectID'</span><span class="o">=</span><span class="n">projectId</span><span class="p">,</span><span class="w">
+                         </span><span class="n">Accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'application/json'</span><span class="p">,</span><span class="w"> </span><span class="n">cookies</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">sessionId</span><span class="p">))</span><span class="w">
+    
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    
+     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">tmp</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">content</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">result</span><span class="w">
+       </span><span class="n">mtrcs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tmp</span><span class="o">$</span><span class="n">definition</span><span class="o">$</span><span class="n">availableObjects</span><span class="o">$</span><span class="n">metrics</span><span class="w">
+       </span><span class="n">attr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tmp</span><span class="o">$</span><span class="n">definition</span><span class="o">$</span><span class="n">availableObjects</span><span class="o">$</span><span class="n">attributes</span><span class="w">  
+       </span><span class="n">mna</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rbind</span><span class="p">(</span><span class="n">do.call</span><span class="p">(</span><span class="s2">"rbind"</span><span class="p">,</span><span class="w"> </span><span class="n">attr</span><span class="p">)[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">],</span><span class="n">do.call</span><span class="p">(</span><span class="s2">"rbind"</span><span class="p">,</span><span class="w"> </span><span class="n">mtrcs</span><span class="p">))</span><span class="w">
+       </span><span class="nf">return</span><span class="p">(</span><span class="n">mna</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">cat</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w">   
+    </span><span class="p">}</span><span class="w">
+    
+    
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Return a data.frame object</span><span class="w">
+</span><span class="n">cObjects</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cubeObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">,</span><span class="w"> </span><span class="n">projectId</span><span class="p">,</span><span class="w"> </span><span class="s1">'BD23848347017FC2C0B4509AED1AF7B4'</span><span class="p">)</span><span class="w">
+</span><span class="n">cObjects</span><span class="w">
+</span></code></pre></div></div>
+
+<table>
+<thead><tr>
+<th scope="col">name</th>
+<th scope="col">id</th>
+<th scope="col">type</th>
+</tr></thead>
+<tbody>
+	<tr>
+<td>Country                         </td>
+<td>8D679D3811D3E4981000E787EC6DE8A4</td>
+<td>Attribute                       </td>
+</tr>
+	<tr>
+<td>Catalog                         </td>
+<td>8D679D3611D3E4981000E787EC6DE8A4</td>
+<td>Attribute                       </td>
+</tr>
+	<tr>
+<td>Category                        </td>
+<td>8D679D3711D3E4981000E787EC6DE8A4</td>
+<td>Attribute                       </td>
+</tr>
+	<tr>
+<td>Subcategory                     </td>
+<td>8D679D4F11D3E4981000E787EC6DE8A4</td>
+<td>Attribute                       </td>
+</tr>
+	<tr>
+<td>Cost                            </td>
+<td>7FD5B69611D5AC76C000D98A4CC5F24F</td>
+<td>Metric                          </td>
+</tr>
+	<tr>
+<td>Gross Revenue                   </td>
+<td>150349F04560BBA2592D019726DF77DD</td>
+<td>Metric                          </td>
+</tr>
+	<tr>
+<td>Units Sold                      </td>
+<td>4C05190A11D3E877C000B3B2D86C964F</td>
+<td>Metric                          </td>
+</tr>
+</tbody>
+</table>
+
+<p><a id="exit"></a></p>
+<h2 id="log-out-and-end-session">
+<a class="anchor" href="#log-out-and-end-session" aria-hidden="true"><span class="octicon octicon-link"></span></a>Log Out and end session</h2>
+<p><a href="#top">Top</a></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">logout</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">){</span><span class="w">
+     </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">GET</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">base_url</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">'auth/logout'</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w"> 
+             </span><span class="n">add_headers</span><span class="p">(</span><span class="s1">'X-MSTR-AuthToken'</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">authToken</span><span class="p">,</span><span class="w"> </span><span class="n">Accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'application/json'</span><span class="p">,</span><span class="w"> </span><span class="n">cookies</span><span class="o">=</span><span class="n">auth</span><span class="o">$</span><span class="n">sessionId</span><span class="p">))</span><span class="w">
+    </span><span class="n">httpstats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpheader</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">headers</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="n">httpcookies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cookies</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">http_status</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">$</span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Success'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">print</span><span class="p">(</span><span class="s2">"Logged Out"</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">print</span><span class="p">(</span><span class="n">httpstats</span><span class="o">$</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">httpstats</span><span class="o">$</span><span class="n">message</span><span class="p">)</span><span class="w"> 
+    </span><span class="p">}</span><span class="w">
+    
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">logout</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "Logged Out"
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-R.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes on Artificial Intelligence, Machine Learning &amp; Deep Learning, Python, Mobile &amp; Development.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/tatwan" title="tatwan"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tarekatwan" title="tarekatwan"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
