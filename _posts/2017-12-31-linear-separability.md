@@ -2,7 +2,7 @@
 toc: true
 layout: post
 description: Methods for Testing Linear Separability in Python
-categories: [markdown]
+categories: [python]
 title: Linear Separability
 ---
 
