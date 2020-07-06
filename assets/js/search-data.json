@@ -84,7 +84,7 @@
   
       ,"page1": {
           "title": "About Me",
-          "content": "This blog belongs to Tarek Atwan. I bring over 15 years of experience in Data Analytics, Business Intelligence, and Product Development. . I am passionate about Coding, Machine Learning, Artificial Intelligence, Emerging Technologies, Cloud Computing, Web Development and Mobile Development. I enjoy coding in Python, Julia, R, and JavaScript. .",
+          "content": "This blog belongs to Tarek Atwan.I bring over 15 years of experience in Data Analytics, Business Intelligence, and Product Development. . I am passionate about Coding, Machine Learning, Artificial Intelligence, Emerging Technologies, Cloud Computing, Web Development and Mobile Development. I enjoy coding in Python, Julia, R, and JavaScript. . In addition to blogging, I also intend to use this blog as a way to publish some of my notes (markdown and jupyter notebooks). .",
           "url": "http://tarekatwan.com/blog/about/",
           "relUrl": "/about/",
           "date": ""
