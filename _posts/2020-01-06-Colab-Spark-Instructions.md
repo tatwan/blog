@@ -7,7 +7,7 @@ image: images/posts_img/cospa.png
 title: How to Install Apache Spark in Google Colab
 --- 
 
-![png](images/cospa.png)
+![png](../images/posts_img/cospa.png)
 
 
 
