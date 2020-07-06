@@ -3,7 +3,7 @@ toc: false
 layout: post
 description: Instructions on setting up Colab for Spark/PySpark development
 categories: [colab, python, spark]
-image: images/cospa.png
+image: images/posts_img/cospa.png
 title: How to Install Apache Spark in Google Colab
 --- 
 
