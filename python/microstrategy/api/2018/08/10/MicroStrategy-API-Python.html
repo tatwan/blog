@@ -1,78 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>MicroStrategy API with Python | TechTalks</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="MicroStrategy API with Python" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examples on how to use Python with MicroStrategy in Jupyter" />
+<meta property="og:description" content="Examples on how to use Python with MicroStrategy in Jupyter" />
+<link rel="canonical" href="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html" />
+<meta property="og:url" content="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html" />
+<meta property="og:site_name" content="TechTalks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Examples on how to use Python with MicroStrategy in Jupyter","@type":"BlogPosting","headline":"MicroStrategy API with Python","dateModified":"2018-08-10T00:00:00-05:00","datePublished":"2018-08-10T00:00:00-05:00","url":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://tarekatwan.com/blog/feed.xml" title="TechTalks" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>MicroStrategy API with Python | TechTalks</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="MicroStrategy API with Python" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examples on how to use Python with MicroStrategy in Jupyter" />
+<meta property="og:description" content="Examples on how to use Python with MicroStrategy in Jupyter" />
+<link rel="canonical" href="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html" />
+<meta property="og:url" content="http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html" />
+<meta property="og:site_name" content="TechTalks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Examples on how to use Python with MicroStrategy in Jupyter","@type":"BlogPosting","headline":"MicroStrategy API with Python","dateModified":"2018-08-10T00:00:00-05:00","datePublished":"2018-08-10T00:00:00-05:00","url":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://tarekatwan.com/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
 
-<hr />
-<p>toc: true
-layout: post
-description: Examples on how to use Python with MicroStrategy in Jupyter
-categories: [python, microstrategy, API]
-title: MicroStrategy API with Python
-—</p>
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="http://tarekatwan.com/blog/feed.xml" title="TechTalks" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
 
-<h1 id="microstrategy-python-rest-api">MicroStrategy-Python-REST-API</h1>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">TechTalks</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">MicroStrategy API with Python</h1><p class="page-description">Examples on how to use Python with MicroStrategy in Jupyter</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2018-08-10T00:00:00-05:00" itemprop="datePublished">
+        Aug 10, 2018
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#microstrategy">microstrategy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#API">API</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#microstrategy-python-rest-api">MicroStrategy-Python-REST-API</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#microstrategy-reference-material">MicroStrategy Reference Material:</a></li>
+<li class="toc-entry toc-h3"><a href="#additional-resourcesinspirations">Additional Resources/Inspirations:</a></li>
+<li class="toc-entry toc-h3"><a href="#python-library-references">Python Library References:</a></li>
+<li class="toc-entry toc-h3"><a href="#list-of-code-examples-">List of Code Examples :</a></li>
+<li class="toc-entry toc-h3"><a href="#import-python-libraries">Import Python Libraries</a></li>
+<li class="toc-entry toc-h2"><a href="#set-parameters">Set Parameters</a></li>
+<li class="toc-entry toc-h2"><a href="#authentication-returns-authtoken--sessionid">Authentication: Returns authToken &amp; SessionId</a></li>
+<li class="toc-entry toc-h2"><a href="#test-session">Test Session</a></li>
+<li class="toc-entry toc-h2"><a href="#get-userinfo">Get UserInfo</a></li>
+<li class="toc-entry toc-h2"><a href="#get-library-for-user">Get Library for user</a></li>
+<li class="toc-entry toc-h2"><a href="#list-of-projects">List of Projects</a></li>
+<li class="toc-entry toc-h2"><a href="#search-objects">Search Objects</a></li>
+<li class="toc-entry toc-h2"><a href="#list-cube-objects">List Cube Objects</a></li>
+<li class="toc-entry toc-h2"><a href="#log-out-and-end-session">Log Out and end session</a></li>
+</ul>
+</li>
+</ul><h1 id="microstrategy-python-rest-api">
+<a class="anchor" href="#microstrategy-python-rest-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>MicroStrategy-Python-REST-API</h1>
 
 <p><a id="top"></a></p>
 
-<h3 id="microstrategy-reference-material">MicroStrategy Reference Material:</h3>
+<h3 id="microstrategy-reference-material">
+<a class="anchor" href="#microstrategy-reference-material" aria-hidden="true"><span class="octicon octicon-link"></span></a>MicroStrategy Reference Material:</h3>
 <ul>
   <li>MicroStrategy RESTful API Interactive (your Local Demo): http://yourmstrEnv.com/MicroStrategyLibrary/api-docs/</li>
   <li><a href="https://demo.microstrategy.com/MicroStrategyLibrary/api-docs/index.html#/">MicroStrategy RESTful API Interactive (external demo)</a></li>
   <li><a href="https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/projects/RESTSDK/Content/topics/REST_API/REST_API.htm">MicroStrategy REST API Online Documentation</a></li>
 </ul>
 
-<h3 id="additional-resourcesinspirations">Additional Resources/Inspirations:</h3>
+<h3 id="additional-resourcesinspirations">
+<a class="anchor" href="#additional-resourcesinspirations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Resources/Inspirations:</h3>
 <ul>
   <li><a href="https://community.microstrategy.com/s/article/REST-API-10-9-code-example-in-Python">MicroStrategy Sample API Python Example by Robert Prochowicz</a></li>
   <li><a href="https://www.microstrategy.com/us/resources/library/webcasts/machine-learning-with-python-train-models-on-trust">Machine Learning with Python On-Demand Video with Scott Rigney</a></li>
 </ul>
 
-<h3 id="python-library-references">Python Library References:</h3>
+<h3 id="python-library-references">
+<a class="anchor" href="#python-library-references" aria-hidden="true"><span class="octicon octicon-link"></span></a>Python Library References:</h3>
 <ul>
   <li><a href="http://docs.python-requests.org/en/master/">Python Requests</a></li>
   <li><a href="https://docs.python.org/3/library/json.html">Python JSON</a></li>
   <li><a href="https://pandas.pydata.org/">Python Pandas</a></li>
 </ul>
 
-<h3 id="list-of-code-examples-">List of Code Examples :</h3>
+<h3 id="list-of-code-examples-">
+<a class="anchor" href="#list-of-code-examples-" aria-hidden="true"><span class="octicon octicon-link"></span></a>List of Code Examples :</h3>
 <ol>
   <li>
     <p><a href="#auth">login()</a></p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span> <span class="o">=</span> <span class="n">login</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span> <span class="o">=</span> <span class="n">login</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p><a href="#test">sessionValidate()</a></p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionValiade</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">sessionValiade</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p><a href="#user">userInfo()</a></p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">user</span> <span class="o">=</span> <span class="n">userInfo</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">user</span> <span class="o">=</span> <span class="n">userInfo</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p><a href="#projects">listProjcets()</a></p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">projectList</span> <span class="o">=</span> <span class="n">listProjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">projectList</span> <span class="o">=</span> <span class="n">listProjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p><a href="#library">getLibrary()</a></p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryInfo</span> <span class="o">=</span> <span class="n">getLibrary</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">,</span> <span class="s">'FILTER_TOC'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">libraryInfo</span> <span class="o">=</span> <span class="n">getLibrary</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">,</span> <span class="s">'FILTER_TOC'</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p><a href="#search">searchObjects()</a></p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mySearch</span> <span class="o">=</span> <span class="n">searchObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="s">'39'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">mySearch</span> <span class="o">=</span> <span class="n">searchObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="s">'39'</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p><a href="#cubeobjects">cubeObjects()</a></p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cObjects</span> <span class="o">=</span> <span class="n">cubeObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">projectId</span><span class="p">,</span> <span class="n">cookies</span><span class="p">,</span> <span class="s">'BD23848347017FC2C0B4509AED1AF7B4'</span><span class="p">)</span>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">cObjects</span> <span class="o">=</span> <span class="n">cubeObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">projectId</span><span class="p">,</span> <span class="n">cookies</span><span class="p">,</span> <span class="s">'BD23848347017FC2C0B4509AED1AF7B4'</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
@@ -93,7 +246,8 @@ title: MicroStrategy API with Python
   <li>More …..</li>
 </ol>
 
-<h3 id="import-python-libraries">Import Python Libraries</h3>
+<h3 id="import-python-libraries">
+<a class="anchor" href="#import-python-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Import Python Libraries</h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -102,7 +256,8 @@ title: MicroStrategy API with Python
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
 </code></pre></div></div>
 
-<h2 id="set-parameters">Set Parameters</h2>
+<h2 id="set-parameters">
+<a class="anchor" href="#set-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set Parameters</h2>
 
 <p>Create the necessary varibales such as <code class="highlighter-rouge">username</code>, <code class="highlighter-rouge">password</code>, <code class="highlighter-rouge">projectid</code> and <code class="highlighter-rouge">baseURL</code></p>
 
@@ -117,10 +272,11 @@ title: MicroStrategy API with Python
 
 <p><a id="auth"></a></p>
 
-<h2 id="authentication-returns-authtoken--sessionid">Authentication: Returns authToken &amp; SessionId</h2>
+<h2 id="authentication-returns-authtoken--sessionid">
+<a class="anchor" href="#authentication-returns-authtoken--sessionid" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authentication: Returns authToken &amp; SessionId</h2>
 <p><a href="#top">Top</a></p>
 
-<p>Implementation Notes (source: MicroStrategy Documentation):<br />
+<p>Implementation Notes (source: MicroStrategy Documentation):<br>
 Authenticate a user and create an HTTP session on the web server where the user’s MicroStrategy sessions are stored. This request returns an authorization token (X-MSTR-AuthToken) which will be submitted with subsequent requests. The body of the request contains the information needed to create the session. The loginMode parameter in the body specifies the authentication mode to use. You can authenticate with one of the following authentication modes: Standard (1), Anonymous (8), or LDAP (16). Authentication modes can be enabled through the System Administration REST APIs, if they are supported by the deployment. If you are not able to authenticate using any of the authentication modes, please contact your administrator to determine current support or currently enabled authentication modes.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="p">):</span>
@@ -165,10 +321,11 @@ Session ID: <span class="o">{</span><span class="s1">'JSESSIONID'</span>: <span 
 
 <p><a id="test"></a></p>
 
-<h2 id="test-session">Test Session</h2>
+<h2 id="test-session">
+<a class="anchor" href="#test-session" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test Session</h2>
 <p><a href="#top">Top</a></p>
 
-<p>Implementation Notes (source: MicroStrategy Documentation):<br />
+<p>Implementation Notes (source: MicroStrategy Documentation):<br>
 Get information about a configuration session. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token in the request header. Each time you call this endpoint, both the HTTP and Intelligence Server session timeouts are reset. This request returns information about the authenticated user, locale, timeout duration, maximum number of concurrent searches, and limit on number of instances kept in memory.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sessionValiade</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">):</span>
@@ -210,7 +367,8 @@ Checking session...
 
 <p><a id="user"></a></p>
 
-<h2 id="get-userinfo">Get UserInfo</h2>
+<h2 id="get-userinfo">
+<a class="anchor" href="#get-userinfo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get UserInfo</h2>
 <p><a href="#top">Top</a></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">userInfo</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">):</span>
@@ -264,10 +422,11 @@ Checking session...
 
 <p><a id="library"></a></p>
 
-<h2 id="get-library-for-user">Get Library for user</h2>
+<h2 id="get-library-for-user">
+<a class="anchor" href="#get-library-for-user" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get Library for user</h2>
 <p><a href="#top">Top</a></p>
 
-<p>Implementation Notes (source: MicroStrategy Documentation)<br />
+<p>Implementation Notes (source: MicroStrategy Documentation)<br>
 Get the library for the authenticated user. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token in the request header.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="s">"""
@@ -343,10 +502,11 @@ Get the library for the authenticated user. You obtain the authorization token n
 
 <p><a id="projects"></a></p>
 
-<h2 id="list-of-projects">List of Projects</h2>
+<h2 id="list-of-projects">
+<a class="anchor" href="#list-of-projects" aria-hidden="true"><span class="octicon octicon-link"></span></a>List of Projects</h2>
 <p><a href="#top">Top</a></p>
 
-<p>Implementation Notes (Source: MicroStrategy Documentation)<br />
+<p>Implementation Notes (Source: MicroStrategy Documentation)<br>
 Get a list of projects which the authenticated user has access to. This returns the name, ID, description, alias, and status of each project; the status corresponds to values from EnumDSSXMLProjectStatus. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token in the request header.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">listProjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">cookies</span><span class="p">):</span>   
@@ -419,10 +579,11 @@ Get a list of projects which the authenticated user has access to. This returns 
 
 <p><a id="search"></a></p>
 
-<h2 id="search-objects">Search Objects</h2>
+<h2 id="search-objects">
+<a class="anchor" href="#search-objects" aria-hidden="true"><span class="octicon octicon-link"></span></a>Search Objects</h2>
 <p><a href="#top">Top</a></p>
 
-<p>Implementation Notes (Source: MicroStrategy Documentation)<br />
+<p>Implementation Notes (Source: MicroStrategy Documentation)<br>
 Use the stored results of the Quick Search engine to return search results and display them as a list. The Quick Search engine periodically indexes the metadata and stores the results in memory, making Quick Search very fast but with results that may not be the most recent. You obtain the authorization token needed to execute the request using POST /auth/login. You identify the project by specifying the project ID in the request header; you obtain the project ID using GET /projects. You specify the search criteria using query parameters in the request; criteria can include the root folder ID, the search domain, the type of object, whether to return ancestors of the object, and a search pattern such as Begins With or Exactly. You use the offset and limit query parameters to control paging behavior. The offset parameter specifies where to start returning search results, and the limit parameter specifies how many results to return.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">searchObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">stype</span><span class="p">):</span>
@@ -524,10 +685,11 @@ Use the stored results of the Quick Search engine to return search results and d
 
 <p><a id="cubeobjects"></a></p>
 
-<h2 id="list-cube-objects">List Cube Objects</h2>
+<h2 id="list-cube-objects">
+<a class="anchor" href="#list-cube-objects" aria-hidden="true"><span class="octicon octicon-link"></span></a>List Cube Objects</h2>
 <p><a href="#top">Top</a></p>
 
-<p>(mplementation Notes (Source: MicroStrategy Documentation)<br />
+<p>(mplementation Notes (Source: MicroStrategy Documentation)<br>
 Get the definition of a specific cube, including attributes and metrics. The cube can be either an Intelligent Cube or a Direct Data Access (DDA)/MDX cube. The in-memory cube definition provides information about all available objects without actually running any data query/report. The results can be used by other requests to help filter large datasets and retrieve values dynamically, helping with performance and scalability. You obtain the authorization token needed to execute the request using POST /auth/login; you pass the authorization token and the project ID in the request header. You specify the cube ID in the path of the request; this can be either an Intelligent cube ID or a DDA/MDX cube ID.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">cubeObjects</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span> <span class="n">authToken</span><span class="p">,</span> <span class="n">projectId</span><span class="p">,</span> <span class="n">cookies</span><span class="p">,</span> <span class="n">cubeId</span><span class="p">):</span>
@@ -601,7 +763,8 @@ Get the definition of a specific cube, including attributes and metrics. The cub
 
 <p><a id="exit"></a></p>
 
-<h2 id="log-out-and-end-session">Log Out and end session</h2>
+<h2 id="log-out-and-end-session">
+<a class="anchor" href="#log-out-and-end-session" aria-hidden="true"><span class="octicon octicon-link"></span></a>Log Out and end session</h2>
 <p><a href="#top">Top</a></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="n">baseURL</span><span class="p">,</span><span class="n">authToken</span><span class="p">):</span>
@@ -624,3 +787,36 @@ Get the definition of a specific cube, including attributes and metrics. The cub
 Logged Out
 </code></pre></div></div>
 
+
+  </div><a class="u-url" href="/blog/python/microstrategy/api/2018/08/10/MicroStrategy-API-Python.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes on Artificial Intelligence, Machine Learning &amp; Deep Learning, Python, Mobile &amp; Development.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/tatwan" title="tatwan"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tarekatwan" title="tarekatwan"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
