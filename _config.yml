@@ -7,7 +7,7 @@
 # https://learnxinyminutes.com/docs/yaml/
 
 title: TechTalks & Snippets
-description: Notes on Artificial Intelligence, Machine Learning & Deep Learning, Python, Mobile & Development.
+description: Code snippets & Notes on Artificial Intelligence, Machine Learning, Deep Learning, Python, Mobile, and Web Development.
 github_username: tatwan
 # you can comment the below line out if your repo name is not different than your baseurl
 github_repo: "blog"
